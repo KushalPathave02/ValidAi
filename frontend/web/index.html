@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>LLM Input Validator</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>LLM Input Validator</h1>
+
+      <form id="validator-form" class="card">
+        <div class="grid">
+          <label>
+            <span>Name</span>
+            <input id="name" name="name" type="text" placeholder="Jane Doe" />
+          </label>
+          <label>
+            <span>Email</span>
+            <input id="email" name="email" type="text" placeholder="jane@example.com" />
+          </label>
+          <label>
+            <span>Age</span>
+            <input id="age" name="age" type="text" placeholder="28" />
+          </label>
+          <label>
+            <span>Country (ISO-2)</span>
+            <input id="country" name="country" maxlength="2" placeholder="IN" />
+          </label>
+          <label class="full">
+            <span>Phone (E.164)</span>
+            <input id="phone" name="phone" type="tel" placeholder="+919876543210" />
+          </label>
+        </div>
+        <div class="actions">
+          <button id="submit" type="submit">Validate</button>
+          <button id="fill-valid" type="button" class="ghost">Fill valid sample</button>
+          <button id="fill-invalid" type="button" class="ghost">Fill invalid sample</button>
+        </div>
+      </form>
+
+      <section id="result" class="card hidden">
+        <div class="result-header">
+          <h2>Result</h2>
+          <span id="status-badge" class="badge">—</span>
+        </div>
+        <div id="invalid-name-block" class="block hidden">
+          <h3>Invalid name</h3>
+          <p id="invalid-name-value" class="muted"></p>
+        </div>
+        <div id="errors-block" class="block hidden">
+          <h3>Errors</h3>
+          <ul id="errors-list"></ul>
+        </div>
+        <div id="warnings-block" class="block hidden">
+          <h3>Warnings</h3>
+          <ul id="warnings-list"></ul>
+        </div>
+      </section>
+
+      <div id="toast" class="toast hidden"></div>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+  </html>
+
