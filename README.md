@@ -29,7 +29,7 @@ Python's role is strictly limited to orchestration and schema enforcement, ensur
 ### Prerequisites
 
 *   Python 3.7+
-*   An OpenAI API key.
+*   A Groq API key.
 
 ### 1. Set Up the Backend
 
@@ -53,10 +53,16 @@ Python's role is strictly limited to orchestration and schema enforcement, ensur
         cp .env.example .env
         ```
 
-    *   Add your OpenAI API key to the `.env` file:
+    *   Add your Groq API key to the `.env` file:
 
         ```
-        OPENAI_API_KEY="your_openai_api_key_here"
+        GROQ_API_KEY="your_groq_api_key_here"
+        ```
+
+        Optionally, you can override the default Groq model:
+
+        ```
+        GROQ_MODEL="llama-3.1-8b-instant"
         ```
 
 ### 2. Run the CLI Validator
@@ -80,6 +86,28 @@ You can use the simple CLI wrapper in the `frontend` directory to test the valid
     ```bash
     python run_validator.py sample_inputs/invalid_user.json
     ```
+
+### 3. Run the Web UI
+
+The project includes a simple static web UI in `frontend/web` and a small API server in the backend.
+
+1.  **Start the backend API server (in one terminal):**
+
+    ```bash
+    cd llm-input-validator/backend
+    uvicorn server:app --reload --port 8000
+    ```
+
+2.  **Serve the web UI (in another terminal):**
+
+    ```bash
+    cd llm-input-validator
+    python3 -m http.server 5173 --directory frontend/web
+    ```
+
+3.  **Open the app:**
+
+    Visit `http://localhost:5173/index.html`.
 
 ## How to Run Evaluations
 

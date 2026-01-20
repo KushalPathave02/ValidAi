@@ -13,7 +13,7 @@ app.validator.validate_user_input()
        ↓
 app.llm_client.get_llm_response(prompt, input)
        ↓
-   OpenAI API
+   Groq API
        ↓
 Structured JSON Response
 ```
@@ -34,7 +34,9 @@ Structured JSON Response
 
 *   `app/validator.py`: The central orchestrator. It combines the prompt and user input, calls the LLM client, and performs a crucial safety check on the returned JSON to ensure it matches the expected schema.
 
-*   `app/llm_client.py`: A dedicated client for communicating with the OpenAI API. It manages the API key, sets model parameters for deterministic output (`temperature=0`, `response_format='json_object'`), and handles basic API call errors.
+*   `app/llm_client.py`: A dedicated client for communicating with the Groq API. It manages the API key, sets model parameters for deterministic output (`temperature=0`), and handles basic API call errors.
+
+*   `server.py`: A small FastAPI server that exposes a `POST /validate` endpoint for the web UI.
 
 *   `app/prompt.py`: A single source of truth for the validation logic. This file contains the system prompt that instructs the LLM on its role, the high-level validation constraints, the distinction between errors and warnings, and the strict output contract.
 
