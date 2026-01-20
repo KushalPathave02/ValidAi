@@ -1,5 +1,5 @@
 (() => {
-  const backendUrl = 'http://localhost:8000';
+  const backendUrl = '';
 
   const form = document.getElementById('validator-form');
   const nameEl = document.getElementById('name');

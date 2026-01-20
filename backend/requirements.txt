@@ -1,2 +1,4 @@
-openai
+groq
 python-dotenv
+fastapi
+uvicorn

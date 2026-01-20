@@ -1,7 +1,9 @@
 import uvicorn
 from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from typing import Any, Dict
+import os
 
 from app.validator import validate_user_input
 
@@ -14,9 +16,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+web_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "frontend", "web"))
+if os.path.isdir(web_dir):
+    app.mount("/ui", StaticFiles(directory=web_dir, html=True), name="ui")
+
 @app.get("/")
 async def root() -> Dict[str, str]:
-    return {"status": "ok"}
+    return {"status": "ok", "ui": "/ui/"}
 
 @app.post("/validate")
 async def validate(payload: Dict[str, Any]) -> Dict[str, Any]:
