@@ -1,0 +1,45 @@
+prompts:
+  - "{{'file://' + __dirname + '/../backend/app/prompt.py'}}"
+
+providers:
+  - id: openai:chat:gpt-3.5-turbo-1106
+    config:
+      model: gpt-3.5-turbo-1106
+      temperature: 0
+      # The following is a beta feature and may not work with all models
+      response_format:
+        type: json_object
+
+tests:
+  - description: 'Valid user profile'
+    vars:
+      input: '{"name": "Aarav Sharma", "email": "aarav.sharma@example.com", "age": 28, "country": "IN", "phone": "+919876543210"}'
+    assert:
+      - type: javascript
+        value: 'JSON.parse(output).is_valid === true && JSON.parse(output).errors.length === 0'
+
+  - description: 'Invalid user with multiple errors and warnings'
+    vars:
+      input: '{"name": "", "email": "aarav@gmail", "age": 16, "country": "India", "phone": "99999"}'
+    assert:
+      - type: javascript
+        value: 'JSON.parse(output).is_valid === false'
+      - type: javascript
+        value: 'JSON.parse(output).errors.some(e => e.includes("name"))'
+      - type: javascript
+        value: 'JSON.parse(output).errors.some(e => e.includes("email"))'
+      - type: javascript
+        value: 'JSON.parse(output).errors.some(e => e.includes("country"))'
+      - type: javascript
+        value: 'JSON.parse(output).errors.some(e => e.includes("phone"))'
+      - type: javascript
+        value: 'JSON.parse(output).warnings.some(w => w.includes("age"))'
+
+  - description: 'User with only a warning (age < 18)'
+    vars:
+      input: '{"name": "Riya", "email": "riya@example.com", "age": 17, "country": "US", "phone": "+14155552671"}'
+    assert:
+      - type: javascript
+        value: 'JSON.parse(output).is_valid === true'
+      - type: javascript
+        value: 'JSON.parse(output).warnings.some(w => w.includes("age"))'
